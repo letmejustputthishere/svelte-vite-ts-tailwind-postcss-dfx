@@ -1,5 +1,4 @@
 <script lang="ts">
-  import logo from "../assets/logo-dark.svg"
   import { onMount } from "svelte"
   import { counter } from "canisters/counter"
 
@@ -19,7 +18,6 @@
 </script>
 
 <header class="App-header">
-  <img src={logo} class="App-logo" alt="logo" />
   <p style="font-size: 2em; margin-bottom: 0.5em">Ready. Lets build the new web</p>
   <div
     style="display: flex; font-size: 0.7em; text-align: left; padding: 2em; border-radius: 30px; flex-direction: column; background: rgb(220 218 224 / 25%);">
