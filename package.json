@@ -4,7 +4,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "prebuild": "npm run copy:types",
+    "serve": "vite preview",
+    "predev": "dfx stop && dfx start --background --clean && dfx canister create --all && dfx build --all && npm run copy:types && dfx deploy",
+    "copy:types": "rsync -avr .dfx/$(echo ${DFX_NETWORK:-'**'})/canisters/** --exclude='assets/' --exclude='idl/' --exclude='*.wasm' --delete src/declarations"
   },
   "dependencies": {
     "@dfinity/agent": "^0.10.0",
