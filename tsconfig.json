@@ -3,14 +3,27 @@
     "moduleResolution": "node",
     "target": "esnext",
     "module": "esnext",
-    "skipLibCheck": true,
+    /**
+     * svelte-preprocess cannot figure out whether you have
+     * a value or a type, so tell TypeScript to enforce using
+     * `import type` instead of `import` for Types.
+     */
+    "importsNotUsedAsValues": "error",
+    /**
+     * To have warnings / errors of the Svelte compiler at the
+     * correct position, enable source maps by default.
+     */
+    "sourceMap": true,
+    // "skipLibCheck": true,
     "esModuleInterop": true,
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
+    "checkJs": true,
     "types": ["vite/client", "svelte", "node"],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": { "canisters/*": [".dfx/local/canisters/*"] }
   },
   "include": [
     "src/frontend/**/*.d.ts",
