@@ -6,8 +6,7 @@
     "build": "tsc && vite build",
     "prebuild": "npm run copy:types",
     "serve": "vite preview",
-    "predev": "dfx stop && dfx start --background --clean && dfx canister create --all && dfx build --all && npm run copy:types && dfx deploy",
-    "copy:types": "rsync -avr .dfx/$(echo ${DFX_NETWORK:-'**'})/canisters/** --exclude='assets/' --exclude='idl/' --exclude='*.wasm' --delete src/declarations"
+    "predev": "dfx stop && dfx start --background --clean && dfx canister create --all && dfx build --all && dfx generate && dfx deploy"
   },
   "dependencies": {
     "@dfinity/agent": "^0.10.0",

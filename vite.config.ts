@@ -12,7 +12,7 @@ interface CanisterIds {
   [key: string]: { [key in Network]: string };
 }
 
-let canisterIds: CanisterIds;
+let canisterIds: CanisterIds = {};
 try {
   canisterIds = JSON.parse(
     fs
@@ -25,9 +25,44 @@ try {
   console.error("\n⚠️  Before starting the dev server run: dfx deploy\n\n");
 }
 
+let flowerNFTs = {
+  // icpflower: "icpflower-nft-canister",
+};
+
+for (let [nftName, dir] of Object.entries(flowerNFTs)) {
+  try {
+    let nftCanisterIds: CanisterIds;
+    nftCanisterIds = JSON.parse(
+      fs
+        .readFileSync(
+          isDev
+            ? `${dir}/.dfx/local/canister_ids.json`
+            : `${dir}/canister_ids.json`,
+        )
+        .toString(),
+    );
+    // the production key is only present in the production build
+    if ("production" in nftCanisterIds) {
+      delete Object.assign(nftCanisterIds, {
+        [nftName]: nftCanisterIds["production"],
+      })["production"];
+    } else {
+      delete Object.assign(nftCanisterIds, {
+        [nftName]: nftCanisterIds["staging"],
+      })["staging"];
+    }
+    canisterIds = {
+      ...canisterIds,
+      ...nftCanisterIds,
+    };
+  } catch (e) {
+    console.error("\n⚠️  Before starting the dev server run: dfx deploy\n\n");
+  }
+}
+
 // List of all aliases for canisters
 // This will allow us to: import { canisterName } from "canisters/canisterName"
-const aliases = Object.entries(dfxJson.canisters).reduce(
+const aliases = Object.entries(dfxJson.canisters || {}).reduce(
   (acc, [name, _value]) => {
     // Get the network name, or `local` by default.
     const networkName = process.env["DFX_NETWORK"] || "local";
@@ -46,7 +81,6 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
   },
   {},
 );
-console.log(aliases);
 
 // Generate canister ids, required by the generated canister code in .dfx/local/canisters/*
 // This strange way of JSON.stringifying the value is required by vite
@@ -60,27 +94,31 @@ const canisterDefinitions = Object.entries(canisterIds).reduce(
   {},
 );
 
-// Gets the port dfx is running on from dfx.json
-const DFX_PORT = dfxJson.networks.local.bind.split(":")[1];
+console.log(canisterDefinitions);
 
 // See guide on how to configure Vite at:
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [svelte()],
+  build: {
+    target: "es2020",
+  },
   resolve: {
     alias: {
       // Here we tell Vite the "fake" modules that we want to define
       ...aliases,
     },
   },
+  publicDir: "./src/frontend/public",
   server: {
+    host: true,
     fs: {
       allow: ["."],
     },
     proxy: {
       // This proxies all http requests made to /api to our running dfx instance
       "/api": {
-        target: `http://localhost:${DFX_PORT}`,
+        target: `http://localhost:4943`,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "/api"),
       },
@@ -93,5 +131,6 @@ export default defineConfig({
     "process.env.NODE_ENV": JSON.stringify(
       isDev ? "development" : "production",
     ),
+    global: "globalThis",
   },
 });
