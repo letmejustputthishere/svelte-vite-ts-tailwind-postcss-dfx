@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "prebuild": "npm run copy:types",
+    "prebuild": "dfx generate",
     "serve": "vite preview",
     "predev": "dfx stop && dfx start --background --clean && dfx canister create --all && dfx build --all && dfx generate && dfx deploy"
   },

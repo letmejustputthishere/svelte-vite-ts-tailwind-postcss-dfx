@@ -10,4 +10,4 @@ next run
 
 `npm install`
 
-`npm dev`
+`npm run dev`
