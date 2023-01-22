@@ -7,7 +7,7 @@ to use this template run
 # Prerequisites
 
 - node 16.13.0 , npm 9.3.1
-- [vessel](https://github.com/dfinity/vessel)
+- [vessel](https://github.com/dfinity/vessel) (if you dont need vessel, remove the string in `packtool` in `dfx.json`)
 - latest version of [dfx](https://sdk.dfinity.org/docs/quickstart/local-quickstart.html#step-1-install-the-dfx-software-development-kit)
 
 # Getting Started
