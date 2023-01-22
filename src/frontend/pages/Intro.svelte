@@ -1,6 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { counter } from "canisters/counter";
+  import { store } from "../store";
+  import Login from "../components/Login.svelte";
+  import Button from "../components/Button.svelte";
 
   let count: number = 0;
 
@@ -16,6 +19,14 @@
 
   onMount(refreshCounter);
 </script>
+
+{#if !$store.isAuthed}
+  <Login />
+{:else}
+  <div>Principal: {$store.principal}</div>
+  <div>AccountId: {$store.accountId}</div>
+  <Button on:click={() => store.disconnect()}>disconnect</Button>
+{/if}
 
 <header class="App-header">
   <p style="font-size: 2em; margin-bottom: 0.5em">
@@ -67,6 +78,7 @@
   <p style="font-size: 0.6em;">This counter is running inside a canister</p>
   <p style="font-size: 0.4em;">
     by <a href="https://twitter.com/miamaruq">@miamaruq</a>
+    by <a href="https://twitter.com/cryptoschindler">@cryptoschindler</a>
   </p>
 </header>
 

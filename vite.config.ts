@@ -25,41 +25,6 @@ try {
   console.error("\n⚠️  Before starting the dev server run: dfx deploy\n\n");
 }
 
-let flowerNFTs = {
-  // icpflower: "icpflower-nft-canister",
-};
-
-for (let [nftName, dir] of Object.entries(flowerNFTs)) {
-  try {
-    let nftCanisterIds: CanisterIds;
-    nftCanisterIds = JSON.parse(
-      fs
-        .readFileSync(
-          isDev
-            ? `${dir}/.dfx/local/canister_ids.json`
-            : `${dir}/canister_ids.json`,
-        )
-        .toString(),
-    );
-    // the production key is only present in the production build
-    if ("production" in nftCanisterIds) {
-      delete Object.assign(nftCanisterIds, {
-        [nftName]: nftCanisterIds["production"],
-      })["production"];
-    } else {
-      delete Object.assign(nftCanisterIds, {
-        [nftName]: nftCanisterIds["staging"],
-      })["staging"];
-    }
-    canisterIds = {
-      ...canisterIds,
-      ...nftCanisterIds,
-    };
-  } catch (e) {
-    console.error("\n⚠️  Before starting the dev server run: dfx deploy\n\n");
-  }
-}
-
 // List of all aliases for canisters
 // This will allow us to: import { canisterName } from "canisters/canisterName"
 const aliases = Object.entries(dfxJson.canisters || {}).reduce(
@@ -131,6 +96,6 @@ export default defineConfig({
     "process.env.NODE_ENV": JSON.stringify(
       isDev ? "development" : "production",
     ),
-    global: "globalThis",
+    global: process.env.NODE_ENV === "development" ? "globalThis" : "global",
   },
 });

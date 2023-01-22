@@ -1,36 +1,37 @@
 {
-  "name": "fpd",
+  "name": "my-project",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "prebuild": "dfx generate",
+    "dev": "npm run replica && npm run deploy && npm run generate && npm run vite",
+    "replica": "dfx stop && rm -rf .dfx && dfx start --clean --background",
+    "generate": "dfx generate",
+    "deploy": "dfx deploy",
+    "vite": "vite --port 3000",
+    "build": "vite build",
     "serve": "vite preview",
-    "predev": "dfx stop && dfx start --background --clean && dfx canister create --all && dfx build --all && dfx generate && dfx deploy"
+    "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
-    "@dfinity/agent": "^0.10.0",
-    "@dfinity/auth-client": "^0.10.0",
-    "@dfinity/authentication": "^0.10.0",
-    "@dfinity/candid": "^0.10.0",
-    "@dfinity/identity": "^0.10.0",
-    "@dfinity/principal": "^0.10.0"
+    "@dfinity/agent": "^0.15.1",
+    "@dfinity/nns": "^0.10.0",
+    "@dfinity/principal": "^0.15.1",
+    "ic-stoic-identity": "^2.0.0"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "next",
+    "@sveltejs/vite-plugin-svelte": "^2.0.2",
     "@tsconfig/svelte": "^3.0.0",
     "@types/node": "^16.11.6",
     "autoprefixer": "^10.4.2",
-    "buffer": "^6.0.3",
-    "cssnano": "^5.0.17",
-    "postcss": "^8.4.6",
-    "postcss-load-config": "^3.1.1",
-    "svelte": "^3.42.5",
-    "svelte-check": "^2.4.3",
-    "svelte-preprocess": "^4.9.4",
-    "tailwindcss": "^3.0.18",
-    "tslib": "^2.3.1",
-    "typescript": "^4.4.3",
-    "vite": "^2.5.7"
+    "cssnano": "^5.1.14",
+    "postcss": "^8.4.20",
+    "postcss-load-config": "^4.0.1",
+    "svelte": "^3.55.0",
+    "svelte-check": "^3.0.1",
+    "svelte-preprocess": "^5.0.0",
+    "tailwindcss": "^3.2.4",
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4"
   }
 }
