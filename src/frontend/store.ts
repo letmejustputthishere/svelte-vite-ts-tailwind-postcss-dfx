@@ -147,7 +147,7 @@ export const createStore = ({
       interfaceFactory: counterIdlFactory,
     })) as typeof counter;
 
-    if (!counter) {
+    if (!counterActor) {
       console.warn("couldn't create actors");
       return;
     }

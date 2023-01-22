@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run replica && npm run deploy && npm run generate && npm run vite",
+    "dev": "npm run replica && npm run deploy && npm run vite",
     "replica": "dfx stop && rm -rf .dfx && dfx start --clean --background",
     "generate": "dfx generate",
-    "deploy": "dfx deploy",
+    "deploy": "dfx canister create --all && npm run generate && dfx deploy",
     "vite": "vite --port 3000",
     "build": "vite build",
     "serve": "vite preview",
