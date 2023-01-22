@@ -30,7 +30,7 @@
 
 <header class="App-header">
   <p style="font-size: 2em; margin-bottom: 0.5em">
-    Ready. Lets build the new web
+    Ready. 
   </p>
   <div
     style="display: flex; font-size: 0.7em; text-align: left; padding: 2em; border-radius: 30px; flex-direction: column; background: rgb(220 218 224 / 25%);"
