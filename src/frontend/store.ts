@@ -1,8 +1,7 @@
-import { writable, get } from "svelte/store";
+import { writable } from "svelte/store";
 import type { Principal } from "@dfinity/principal";
 import type { HttpAgent, Identity } from "@dfinity/agent";
 import { StoicIdentity } from "ic-stoic-identity";
-import { AccountIdentifier, SubAccount } from "@dfinity/nns";
 import {
   counter,
   createActor as createCounterActor,

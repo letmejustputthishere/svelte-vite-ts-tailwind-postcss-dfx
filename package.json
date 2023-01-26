@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@dfinity/agent": "^0.15.1",
-    "@dfinity/nns": "^0.10.0",
     "@dfinity/principal": "^0.15.1",
     "ic-stoic-identity": "^2.0.0"
   },
